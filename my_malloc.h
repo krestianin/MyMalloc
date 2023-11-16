@@ -4,6 +4,7 @@
 struct MemoryBlock {
     size_t size;
     int status; // 0 for free, 1 for allocated
+    struct MemoryBlock* next; // Pointer to the next free block
     void* memory;
 };
 

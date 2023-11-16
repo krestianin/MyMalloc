@@ -9,7 +9,7 @@ int main(){
 
     int * one = NULL;
     printf("%p", one);
-
+    
     one = (int*)myMalloc(4);
     *one = 12;
     printf("%p", one);
