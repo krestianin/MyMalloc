@@ -1,11 +1,22 @@
 #include "my_malloc.h"
-
+#include "stdio.h"
 
 int main(){
-    printf("Hello world!");
-    return 0;
+    printf("\n");
+    
 
-    int * one = myMalloc(4);
+    initializeMemory();
+
+    int * one = NULL;
+    printf("%p", one);
+
+    one = (int*)myMalloc(4);
     *one = 12;
-    printf("%d", *one);
+    printf("%p", one);
+    printf("\n");
+    myFree(one);
+    printf("%p", one);
+
+
+    return 0;
 }

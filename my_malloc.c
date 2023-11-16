@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include "my_malloc.h"
+#include "stdio.h"
 
 
 
@@ -12,6 +13,7 @@ void initializeMemory() {
     memory_blocks->size = MEMORY_SIZE;
     memory_blocks->status = 0; // Free
     memory_blocks->memory = memory_pool + sizeof(struct MemoryBlock);
+    // printf("Hello!");  
 }
 
 void* myMalloc(size_t size) {
