@@ -14,4 +14,4 @@ my_malloc.o:  my_malloc.c  my_malloc.h
 # 	g++ -Wall -c list.c
 	
 clean:
-	rm -f  mem_test main.o 
+	rm -f  mem_test.o my_malloc.o 
