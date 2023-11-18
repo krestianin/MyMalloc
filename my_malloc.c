@@ -74,6 +74,7 @@
 #include "my_malloc.h"
 #include <stdlib.h>
 #include <stdio.h>
+// #include <climits>
 
 static char* memory_pool = NULL;
 static char* stack_top = NULL;
@@ -88,16 +89,18 @@ void initializeMemory() {
 }
 
 void* myMalloc(size_t size) {
-    // Additional space for storing the size
-    size_t total_size = size + sizeof(size_t);
+    if (size > 65535 - sizeof(unsigned short)) {
+        // Block size is too large to be tracked with an unsigned short
+        return NULL;
+    }
 
+    unsigned short total_size = (unsigned short)size + sizeof(unsigned short);
     if (stack_top + total_size > memory_pool + MEMORY_SIZE) {
         return NULL;
     }
 
-    // Store the size at the start of the block
-    *((size_t*)stack_top) = size;
-    void* allocated_memory = stack_top + sizeof(size_t);
+    *((unsigned short*)stack_top) = (unsigned short)size;
+    void* allocated_memory = stack_top + sizeof(unsigned short);
 
     stack_top += total_size;
 
@@ -109,21 +112,17 @@ void myFree(void* ptr) {
         return;
     }
 
-    // Retrieve the size of the block from the header
-    size_t block_size = *((size_t*)((char*)ptr - sizeof(size_t)));
+    unsigned short block_size = *((unsigned short*)((char*)ptr - sizeof(unsigned short)));
+    char* expected_block_start = (char*)ptr - sizeof(unsigned short);
 
-    // Calculate the expected start of the block
-    char* expected_block_start = (char*)ptr - sizeof(size_t);
-
-    // Check if the pointer is correct
-    if (expected_block_start != stack_top - block_size - sizeof(size_t)) {
+    if (expected_block_start != stack_top - block_size - sizeof(unsigned short)) {
         printf("Error: Memory block not at stack top. Cannot free.\n");
         return;
     }
 
-    // Adjust the stack top to free the block
     stack_top = expected_block_start;
 }
+
 
 void cleanupMemory() {
     free(memory_pool);  // Free the allocated memory pool
