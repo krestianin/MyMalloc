@@ -1,4 +1,7 @@
 #include <stddef.h>
+#ifndef MY_MALLOC_H
+#define MY_MALLOC_H
+
 #define MEMORY_SIZE 1024
 
 struct MemoryBlock {
@@ -11,3 +14,6 @@ struct MemoryBlock {
 void initializeMemory();
 void* myMalloc(size_t size);
 void myFree(void* ptr);
+void cleanupMemory(); 
+
+#endif 
