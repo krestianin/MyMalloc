@@ -64,14 +64,21 @@ int main() {
     printf("Freed block3\n");
 
     printf("\nTesting allocation when the stack is full...\n");
-    void* block4 = myMalloc(MEMORY_SIZE); // Attempt to allocate the entire pool
+    void* block4 = myMalloc(MEMORY_SIZE-94); // Attempt to allocate the entire pool
     if (block4) {
-        printf("Allocated MEMORY_SIZE bytes for block4\n");
-        myFree(block4);
-        printf("Freed block4\n");
+        // printf("Allocated MEMORY_SIZE bytes for block4\n");
+        // myFree(block4);
+        // printf("Freed block4\n");
     } else {
         printf("Failed to allocate MEMORY_SIZE bytes for block4\n");
     }
-
+    void* block5 = myMalloc(100);
+ if (block5) {
+        printf("Allocated MEMORY_SIZE bytes for block5\n");
+        myFree(block5);
+        printf("Freed block5\n");
+    } else {
+        printf("Failed to allocate MEMORY_SIZE bytes for block5\n");
+    }
     return 0;
 }

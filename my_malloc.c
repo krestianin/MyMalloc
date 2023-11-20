@@ -78,7 +78,7 @@
 
 static char* memory_pool = NULL;
 static char* stack_top = NULL;
-
+MemoryBlock* root = NULL;
 void initializeMemory() {
     memory_pool = (char*)malloc(MEMORY_SIZE);
     if (memory_pool == NULL) {

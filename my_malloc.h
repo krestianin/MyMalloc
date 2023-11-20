@@ -12,7 +12,7 @@ typedef struct MemoryBlock {
     int height;
 } MemoryBlock;
 
-MemoryBlock* root = NULL; // Root of the AVL tree
+// MemoryBlock* root = NULL; // Root of the AVL tree
 
 
 void initializeMemory();
