@@ -4,12 +4,16 @@
 
 #define MEMORY_SIZE 1024
 
-struct MemoryBlock {
+typedef struct MemoryBlock {
+    void* ptr;
     size_t size;
-    int status; // 0 for free, 1 for allocated
-    struct MemoryBlock* next; // Pointer to the next free block
-    void* memory;
-};
+    struct MemoryBlock* left;
+    struct MemoryBlock* right;
+    int height;
+} MemoryBlock;
+
+MemoryBlock* root = NULL; // Root of the AVL tree
+
 
 void initializeMemory();
 void* myMalloc(size_t size);
