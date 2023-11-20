@@ -74,7 +74,7 @@
 #include "my_malloc.h"
 #include <stdlib.h>
 #include <stdio.h>
-// #include <climits>
+#include <climits>
 
 static char* memory_pool = NULL;
 static char* stack_top = NULL;
@@ -100,7 +100,7 @@ int max(int a, int b) {
 }
 
 // A utility function to create a new memory block node
-MemoryBlock* newMemoryBlock(void* ptr, size_t size) {
+MemoryBlock* newMemoryBlock(void* ptr, unsigned short size) {
     MemoryBlock* block = (MemoryBlock*)malloc(sizeof(MemoryBlock));
     block->ptr = ptr;
     block->size = size;
@@ -151,7 +151,7 @@ int getBalance(MemoryBlock* N) {
     return height(N->left) - height(N->right);
 }
 
-MemoryBlock* insertMemoryBlock(MemoryBlock* node, void* ptr, size_t size) {
+MemoryBlock* insertMemoryBlock(MemoryBlock* node, void* ptr, unsigned short size) {
     /* 1. Perform the normal BST insertion */
     if (node == NULL)
         return newMemoryBlock(ptr, size);
@@ -195,7 +195,7 @@ MemoryBlock* insertMemoryBlock(MemoryBlock* node, void* ptr, size_t size) {
     return node;
 }
 
-MemoryBlock* findClosestBlock(MemoryBlock* node, size_t size) {
+MemoryBlock* findClosestBlock(MemoryBlock* node, unsigned short size) {
     MemoryBlock* current = node;
     MemoryBlock* best_fit = NULL;
 
@@ -228,7 +228,7 @@ MemoryBlock* minValueNode(MemoryBlock* node) {
 
 // Recursive function to delete a node with given size from subtree with given root.
 // It returns root of the modified subtree.
-MemoryBlock* deleteNode(MemoryBlock* root, size_t size) {
+MemoryBlock* deleteNode(MemoryBlock* root, unsigned short size) {
     // STEP 1: Perform standard BST delete
     if (root == NULL)
         return root;
@@ -309,8 +309,9 @@ MemoryBlock* deleteNode(MemoryBlock* root, size_t size) {
 
 
 void* myMalloc(size_t size) {
-    size_t total_size = size + sizeof(size_t);
+    unsigned short total_size = size + sizeof(unsigned short);
    if (stack_top + total_size > memory_pool + MEMORY_SIZE) {
+     printf("allocating from AVL\n");
         // Search the AVL tree for a suitable block
         MemoryBlock* block = findClosestBlock(root, size);
         if (block) {
@@ -320,11 +321,12 @@ void* myMalloc(size_t size) {
         }
         return NULL;
     }
+       printf("allocating from pool\n");
 
-    if (size > 65535 - sizeof(unsigned short)) {
-        // Block size is too large to be tracked with an unsigned short
+    if (size > USHRT_MAX - sizeof(unsigned short)) {
+        printf("Block size is too large to be tracked with an unsigned short");
         return NULL;
-    }
+    }   
 
     // unsigned short total_size = (unsigned short)size + sizeof(unsigned short);
     // if (stack_top + total_size > memory_pool + MEMORY_SIZE) {
