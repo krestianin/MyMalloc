@@ -12,12 +12,10 @@ typedef struct MemoryBlock {
     int height;
 } MemoryBlock;
 
-// MemoryBlock* root = NULL; // Root of the AVL tree
-
 
 void initializeMemory();
-void* myMalloc(size_t size);
-void myFree(void* ptr);
+void* my_malloc(size_t size);
+void my_free(void* ptr);
 void cleanupMemory(); 
 
 #endif 
