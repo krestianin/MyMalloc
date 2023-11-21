@@ -207,7 +207,6 @@ MemoryBlock* deleteNode(MemoryBlock* root, unsigned short size) {
 void* my_malloc(size_t size) {
     unsigned short total_size = size + sizeof(unsigned short);
    if (stack_top + total_size > memory_pool + MEMORY_SIZE) {
-     printf("allocating from AVL\n");
 
         MemoryBlock* block = findClosestBlock(root, size);
         if (block) {
@@ -216,7 +215,6 @@ void* my_malloc(size_t size) {
         }
         return NULL;
     }
-       printf("allocating from pool\n");
 
     if (size > USHRT_MAX - sizeof(unsigned short)) {
         printf("Block size is too large to be tracked with an unsigned short");

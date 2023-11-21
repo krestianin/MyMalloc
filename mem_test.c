@@ -6,7 +6,7 @@ int main() {
     initializeMemory();
 
 
-    printf("Allocating and deallocating in order...\n");
+    printf("\nAllocating and deallocating in order...\n");
     void* block1 = my_malloc(100);
     if (block1) printf("Allocated 100 bytes for block1\n");
     void* block2 = my_malloc(50);
@@ -35,7 +35,7 @@ int main() {
 
 
     printf("\nTesting allocation when the stack is full...\n");
-    void* block4 = my_malloc(MEMORY_SIZE-76); // Attempt to allocate the entire pool
+    void* block4 = my_malloc(MEMORY_SIZE-76); // Attempt to allocate the entire pool, 76 - is space currently located in AVL tree (divided into blocks of 30+2 and 40+2)
     if (block4) {
         printf("Allocated MEMORY_SIZE bytes for block4\n");
         my_free(block4);
@@ -43,15 +43,27 @@ int main() {
     } else {
         printf("Failed to allocate MEMORY_SIZE bytes for block4\n");
     }
-    void* block5 = my_malloc(39);
 
 
+    printf("\nTesting allocation of memory bock greater than memory pool...\n");
+    void* block5 = my_malloc(MEMORY_SIZE-75); // Attempt to allocate memory block larger than the entire pool
     if (block5) {
         printf("Allocated MEMORY_SIZE bytes for block5\n");
         my_free(block5);
         printf("Freed block5\n");
     } else {
-        printf("Failed to allocate 100 bytes for block5\n");
+        printf("Failed to allocate MEMORY_SIZE bytes for block5\n");
+    }
+
+
+    printf("\nTesting allocation of memory vlocks from AVL tree (previously freed)...\n");
+    void* block6 = my_malloc(39);
+    if (block6) {
+        printf("Allocated MEMORY_SIZE bytes for block6\n");
+        my_free(block6);
+        printf("Freed block6\n");
+    } else {
+        printf("Failed to allocate 100 bytes for block6\n");
     }
 
     cleanupMemory();
