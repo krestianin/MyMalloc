@@ -10,8 +10,5 @@ mem_test.o: mem_test.c my_malloc.h
 my_malloc.o:  my_malloc.c  my_malloc.h 
 	g++ -Wall -o  my_malloc.o  -c  my_malloc.c
 	
-# list.o: list.h list.c
-# 	g++ -Wall -c list.c
-	
 clean:
-	rm -f  mem_test.o my_malloc.o 
+	rm -f  mem_test.o my_malloc.o mem_test
